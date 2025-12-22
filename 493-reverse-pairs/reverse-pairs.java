@@ -1,57 +1,51 @@
 class Solution {
-    private int mergeAndCount(int[] nums, int start, int mid, int end) {
-        int[] temp = new int[end - start + 1];
-        int leftPtr = start;
-        int rightPtr = mid + 1;
-        int tIndex = 0;
-        int pairs = 0;
 
-        while (leftPtr <= mid && rightPtr <= end) {
-            if (nums[leftPtr] <= nums[rightPtr]) {
-                temp[tIndex++] = nums[leftPtr++];
-            } else {
-                temp[tIndex++] = nums[rightPtr++];
-            }
-        }
+    private int[] temp; 
 
-        int i = start;
+    private int mergeSort(int[] nums, int left, int right) {
+        if (left >= right) return 0;
+
+        int mid = left + (right - left) / 2;
+        int count = 0;
+
+        count += mergeSort(nums, left, mid);
+        count += mergeSort(nums, mid + 1, right);
+
         int j = mid + 1;
-        while (i <= mid && j <= end) {
-            if ((long) nums[i] > 2L * (long) nums[j]) {
-                pairs += (mid - i + 1);
+        for (int i = left; i <= mid; i++) {
+            while (j <= right && (long) nums[i] > 2L * nums[j]) {
                 j++;
+            }
+            count += j - (mid + 1);
+        }
+
+        // merging 
+        int i1 = left;
+        int i2 = mid + 1;
+        int k = left;
+
+        while (i1 <= mid && i2 <= right) {
+            if (nums[i1] <= nums[i2]) {
+                temp[k++] = nums[i1++];
             } else {
-                i++;
+                temp[k++] = nums[i2++];
             }
         }
 
-        while (leftPtr <= mid) {
-            temp[tIndex++] = nums[leftPtr++];
-        }
-        while (rightPtr <= end) {
-            temp[tIndex++] = nums[rightPtr++];
-        }
+        while (i1 <= mid) temp[k++] = nums[i1++];
+        while (i2 <= right) temp[k++] = nums[i2++];
 
-        for (int src = 0, dst = start; dst <= end; src++, dst++) {
-            nums[dst] = temp[src];
+        for (int i = left; i <= right; i++) {
+            nums[i] = temp[i];
         }
 
-        return pairs;
-    }
-
-    private int sortAndCount(int[] nums, int start, int end) {
-        if (start >= end) return 0;  // CHANGED: >= instead of ==
-        
-        int mid = (start + end) / 2;
-        int leftCount = sortAndCount(nums, start, mid);
-        int rightCount = sortAndCount(nums, mid + 1, end);
-        int crossCount = mergeAndCount(nums, start, mid, end);
-
-        return leftCount + rightCount + crossCount;
+        return count;
     }
 
     public int reversePairs(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
-        return sortAndCount(nums, 0, nums.length - 1);
+        int n = nums.length;
+        if (n <= 1) return 0;
+        temp = new int[n]; 
+        return mergeSort(nums, 0, n - 1);
     }
 }
