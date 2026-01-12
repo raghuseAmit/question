@@ -1,8 +1,6 @@
 class Solution {
     int n1;
     int n2;
-
-    // Next Greater Element to the Right for nums2
     public int[] getNGR(int[] nums2) {
         Stack<Integer> stack = new Stack<>();
         int[] NGR = new int[n2];
@@ -24,8 +22,6 @@ class Solution {
 
         int[] NGR = getNGR(nums2);
         Map<Integer, Integer> map = new HashMap<>();
-
-        // Map each element in nums2 to its next greater element
         for (int i = 0; i < n2; i++) {
             if (NGR[i] == -1) {
                 map.put(nums2[i], -1);
