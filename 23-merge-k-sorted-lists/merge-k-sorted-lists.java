@@ -8,12 +8,6 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-// class Solution {
-//     public ListNode mergeKLists(ListNode[] lists) {
-        
-//     }
-// }
-
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int n = lists.length;
@@ -25,7 +19,7 @@ class Solution {
             int min = Integer.MAX_VALUE;
 
             for(int j = 0; j < n; j++) {
-                if(lists[j] != null && lists[j].val <= min) {
+                if(lists[j] != null && lists[j].val < min) {
                     ind = j;
                     min = lists[j].val;
                 }
@@ -37,6 +31,8 @@ class Solution {
             node = node.next;
             lists[ind] = node.next;
         }
+
+        node.next = null;
         return dummy.next;
     }
 }
