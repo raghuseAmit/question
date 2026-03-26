@@ -4,7 +4,7 @@ class Solution {
         int start = 0, end = size - 1;
         int maxLeft = 0, maxRight = 0;
         int totalWater = 0;
-        while (start < end) {
+        while (start <= end) {
             if (bars[start] <= bars[end]) {
                 if (bars[start] >= maxLeft) {
                     maxLeft = bars[start];
