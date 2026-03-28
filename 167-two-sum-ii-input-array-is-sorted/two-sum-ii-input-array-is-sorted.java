@@ -11,7 +11,7 @@ class Solution{
             if (total == target) {
                 result[0] = left + 1;
                 result[1] = right + 1;
-                break; // exit loop instead of returning
+                break; 
             } else if (total > target) {
                 right--;
             } else {
